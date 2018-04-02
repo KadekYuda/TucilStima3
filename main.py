@@ -22,12 +22,14 @@ def get_post_javascript_data():
         arrOfCoords.append([lat,lng])
     arrOfEdges = jsdata['edges']
     adjMatrix = graphGeneration(arrOfCoords,arrOfEdges)
-    start = 0
-    goal = 4
+    start = int(jsdata['start'])
+    goal = int(jsdata['finish'])
     sol = Astar(start,goal,arrOfCoords,adjMatrix) 
-    print("solution: ")
-    print(sol)
-    return json.dumps(jsdata)[0];
+    solution = {'solution':sol}
+    print(solution)
+    return render_template("index.html", solution = solution)
+
+
 
 if __name__ == "__main__":
     app.run()

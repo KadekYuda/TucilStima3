@@ -80,6 +80,12 @@ function sendData(){
         alert(msg);
     }
   });
+  JSON.parse('{{obj}}')
+
+  $.getJSON('/getmethod', function(data){
+      console.log(data);
+  })
+
 }
 
 // Warn if overriding existing method
