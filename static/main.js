@@ -69,23 +69,19 @@ function initMap() {
 function sendData(){
   var obj = {'coordinates':data, 'edges':edge, 'start':document.getElementById("startVal").value, 'finish':document.getElementById("endVal").value};
   document.getElementById("demo").innerHTML = JSON.stringify(obj);
-  $.ajax({
-    url: '/postmethod',
-    type: 'POST',
-    data: JSON.stringify(obj),
-    contentType: 'application/json',
-    dataType: 'json',
-    async: true,
-    success: function(msg) {
-        alert(msg);
-    }
-  });
-  JSON.parse('{{obj}}')
-
-  $.getJSON('/getmethod', function(data){
-      console.log(data);
-  })
-
+  var xhr = new XMLHttpRequest();
+  var url = "/postmethod";
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          var json = JSON.parse(xhr.responseText);
+          console.log("Solution:");
+          console.log(json);
+      }
+  };
+  var stuff = JSON.stringify(obj);
+  xhr.send(stuff);
 }
 
 // Warn if overriding existing method

@@ -24,10 +24,10 @@ def get_post_javascript_data():
     adjMatrix = graphGeneration(arrOfCoords,arrOfEdges)
     start = int(jsdata['start'])
     goal = int(jsdata['finish'])
-    sol = Astar(start,goal,arrOfCoords,adjMatrix) 
+    sol = Astar(start,goal,arrOfCoords,adjMatrix)
     solution = {'solution':sol}
     print(solution)
-    return render_template("index.html", solution = solution)
+    return json.dumps(solution)
 
 
 
