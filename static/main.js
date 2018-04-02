@@ -67,8 +67,8 @@ function initMap() {
 }
 
 function sendData(){
-  var obj = {'coordinates':data, 'edges':edge};
-  document.getElementById("demo").innerHTML = data;
+  var obj = {'coordinates':data, 'edges':edge, 'start':document.getElementById("startVal").value, 'finish':document.getElementById("endVal").value};
+  document.getElementById("demo").innerHTML = JSON.stringify(obj);
   $.ajax({
     url: '/postmethod',
     type: 'POST',
