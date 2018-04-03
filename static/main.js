@@ -61,7 +61,8 @@ function initMap() {
       poly = new google.maps.Polyline({
         strokeColor: '#000000',
         strokeOpacity: 1.0,
-        strokeWeight: 3
+        strokeWeight: 3,
+        zindex: 2
       });
       poly.setMap(map);
       var path = poly.getPath();
