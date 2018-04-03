@@ -26,7 +26,7 @@ def get_post_javascript_data():
     goal = int(jsdata['finish'])
     sol = Astar(start,goal,arrOfCoords,adjMatrix)
     solution = {'solution':sol}
-    print(solution)
+    #print(solution)
     return json.dumps(solution)
 
 

@@ -12,7 +12,13 @@ function initMap() {
   }
 
   //New Map
-  var map = new google.maps.Map(document.getElementById('map'), options);
+  map = new google.maps.Map(document.getElementById('map'), options);
+
+  polyRes = new google.maps.Polyline({
+    strokeColor: '#42f453',
+    strokeOpacity: 1.0,
+    strokeWeight: 5,
+  });
 
   //Listener for a click in a map, there will be a marker
   google.maps.event.addListener(map, 'click', function(event) {
@@ -67,8 +73,10 @@ function initMap() {
 }
 
 function sendData(){
+  polyRes.setMap(null);
+  var path = polyRes.getPath();
+  path.clear();
   var obj = {'coordinates':data, 'edges':edge, 'start':document.getElementById("startVal").value, 'finish':document.getElementById("endVal").value};
-  document.getElementById("demo").innerHTML = JSON.stringify(obj);
   var xhr = new XMLHttpRequest();
   var url = "/postmethod";
   xhr.open("POST", url, true);
@@ -76,12 +84,29 @@ function sendData(){
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
           var json = JSON.parse(xhr.responseText);
-          console.log("Solution:");
-          console.log(json);
+          //console.log("Solution:");
+          //console.log(json);
+          var arr = []
+          for(var x in json){
+            arr.push(json[x]);
+          }
+          // cara akses result
+          // arr[0]    -> array result
+          // arr[0][i] -> i adalah elemen ke-i dr hasil yg diinginkan
+          addResultPolyLine(arr[0]);
+          document.getElementById("demo").innerHTML = json.solution;
       }
   };
   var stuff = JSON.stringify(obj);
   xhr.send(stuff);
+}
+
+function addResultPolyLine(arr){
+  polyRes.setMap(map);
+  var path = polyRes.getPath();
+  for (i = 0; i < arr.length; i++) {
+    path.push(data[arr[i]]);
+  }
 }
 
 // Warn if overriding existing method
