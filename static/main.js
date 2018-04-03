@@ -19,11 +19,13 @@ function initMap() {
     strokeOpacity: 1.0,
     strokeWeight: 5
   });
+
   poly = new google.maps.Polyline({
     strokeColor: '#000000',
     strokeOpacity: 1.0,
     strokeWeight: 3
   });
+
 
   //Listener for a click in a map, there will be a marker
   google.maps.event.addListener(map, 'click', function(event) {
@@ -64,11 +66,6 @@ function contains(a, obj) {
 
 function addPolyLine(start, end){
   if (start != end && !contains(edge,[start, end]) && !contains(edge,[end, start])){
-    var poly = new google.maps.Polyline({
-      strokeColor: '#000000',
-      strokeOpacity: 1.0,
-      strokeWeight: 3,
-    });
     poly.setMap(map);
     var path = poly.getPath();
     path.push(data[start]);
