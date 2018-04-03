@@ -95,7 +95,8 @@ function sendData(){
           // arr[0]    -> array result
           // arr[0][i] -> i adalah elemen ke-i dr hasil yg diinginkan
           addResultPolyLine(arr[0]);
-          document.getElementById("demo").innerHTML = json.solution;
+          document.getElementById("demo").innerHTML = json.solution + "\n" + json.cost;
+		  
       }
   };
   var stuff = JSON.stringify(obj);

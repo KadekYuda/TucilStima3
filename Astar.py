@@ -42,11 +42,12 @@ def findMinNode(arr,openSet):
 def heuristicCost(i,goal,arrOfCoords):
     return distanceKM(arrOfCoords,i,goal)
 
-def pathReconstruction(cameFrom,curr):
+def pathReconstruction(cameFrom,curr,cost):
     result = [curr]
     while cameFrom[curr] != None:
         curr = cameFrom[curr]
         result.insert(0,curr)
+    result.append(cost)
     return result
 
 def findNeighbors(adjMatrix,curr):
@@ -71,7 +72,7 @@ def Astar(start,goal,arrOfCoords,adjMatrix):
     while openSet: #selama openSet masih ada isinya
         curr = findMinNode(fScore,openSet)
         if curr == goal:
-            return pathReconstruction(cameFrom,curr)
+            return pathReconstruction(cameFrom,curr,gScore[curr])
         else:
             openSet.remove(curr)
             closedSet.insert(0,curr)
