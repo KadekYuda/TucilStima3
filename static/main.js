@@ -17,13 +17,12 @@ function initMap() {
   polyRes = new google.maps.Polyline({
     strokeColor: '#42f453',
     strokeOpacity: 1.0,
-    strokeWeight: 5,
+    strokeWeight: 5
   });
   poly = new google.maps.Polyline({
     strokeColor: '#000000',
     strokeOpacity: 1.0,
-    strokeWeight: 3,
-	zindex: 2
+    strokeWeight: 3
   });
 
   //Listener for a click in a map, there will be a marker
