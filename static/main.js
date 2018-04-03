@@ -2,6 +2,7 @@ var data = [];
 var edge = [];
 var labelIdx = 0;
 var prevIdx;
+var ResultSaver = [];
 
 function initMap() {
   // Map Options
@@ -11,14 +12,15 @@ function initMap() {
     center: {lat: -6.892, lng: 107.611}
   }
 
-  //New Map
-  map = new google.maps.Map(document.getElementById('map'), options);
-
   polyRes = new google.maps.Polyline({
     strokeColor: '#42f453',
     strokeOpacity: 1.0,
     strokeWeight: 5,
   });
+  ResultSaver.push(polyRes);
+  
+  //New Map
+  map = new google.maps.Map(document.getElementById('map'), options);
 
   //Listener for a click in a map, there will be a marker
   google.maps.event.addListener(map, 'click', function(event) {
@@ -48,15 +50,6 @@ function placeMarker(location) {
     });
 }
 
-function contains(a, obj) {
-  for (var i = 0; i < a.length; i++) {
-      if (a[i].equals(obj)) {
-          return true;
-      }
-  }
-  return false;
-}
-
 function addPolyLine(start, end){
   if (start != end && !contains(edge,[start, end]) && !contains(edge,[end, start])){
     var poly = new google.maps.Polyline({
@@ -74,6 +67,7 @@ function addPolyLine(start, end){
 
 function sendData(){
   polyRes.setMap(null);
+  ResultSaver = [];
   var path = polyRes.getPath();
   path.clear();
   var obj = {'coordinates':data, 'edges':edge, 'start':document.getElementById("startVal").value, 'finish':document.getElementById("endVal").value};
@@ -103,11 +97,26 @@ function sendData(){
 }
 
 function addResultPolyLine(arr){
+  polyRes = new google.maps.Polyline({
+    strokeColor: '#42f453',
+    strokeOpacity: 1.0,
+    strokeWeight: 5,
+  });
+  ResultSaver.push(polyRes);
   polyRes.setMap(map);
   var path = polyRes.getPath();
   for (i = 0; i < arr.length; i++) {
     path.push(data[arr[i]]);
   }
+}
+
+function contains(a, obj) {
+  for (var i = 0; i < a.length; i++) {
+      if (a[i].equals(obj)) {
+          return true;
+      }
+  }
+  return false;
 }
 
 // Warn if overriding existing method
