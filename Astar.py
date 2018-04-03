@@ -39,6 +39,23 @@ def findMinNode(arr,openSet):
             iMin = i
     return iMin
 
+def heuristicCost(i,goal,arrOfCoords):
+    return distanceKM(arrOfCoords,i,goal)
+
+def pathReconstruction(cameFrom,curr):
+    result = [curr]
+    while cameFrom[curr] != None:
+        curr = cameFrom[curr]
+        result.insert(0,curr)
+    return result
+
+def findNeighbors(adjMatrix,curr):
+    neighbors = []
+    for i in range(len(adjMatrix)):
+        if(adjMatrix[curr][i] != 100000):
+            neighbors.append(i)
+    return neighbors
+
 def Astar(start,goal,arrOfCoords,adjMatrix):
     #returns array of integer, which represents the vertices that has to be visited.
     #adjMatrix : represents the graph
@@ -53,12 +70,10 @@ def Astar(start,goal,arrOfCoords,adjMatrix):
 
     while openSet: #selama openSet masih ada isinya
         curr = findMinNode(fScore,openSet)
-        #print(openSet)
         if curr == goal:
             return pathReconstruction(cameFrom,curr)
         else:
             openSet.remove(curr)
-            #print(openSet)
             closedSet.insert(0,curr)
 
             #curr bertetangga dengan siapa saja?
@@ -77,71 +92,3 @@ def Astar(start,goal,arrOfCoords,adjMatrix):
 
     #if not successful
     return None
-
-
-
-def heuristicCost(i,goal,arrOfCoords):
-    return distanceKM(arrOfCoords,i,goal)
-
-def pathReconstruction(cameFrom,curr):
-    result = [curr]
-    while cameFrom[curr] != None:
-        curr = cameFrom[curr]
-        result.insert(0,curr)
-    return result
-
-def findNeighbors(adjMatrix,curr):
-    neighbors = []
-    for i in range(len(adjMatrix)):
-        if(adjMatrix[curr][i] != 100000):
-            neighbors.append(i)
-    return neighbors
-
-
-def main():
-    N = int(input())
-    arrOfCoords = []
-    arrOfEdges = []
-    for i in range(N):
-        lat = int(input())
-        long = int(input())
-        arrOfCoords.append([lat,long])
-    M = int(input())
-    for i in range(M):
-        edge1 = int(input())-1
-        edge2 = int(input())-1
-        arrOfEdges.append([edge1,edge2])
-    adjMatrix = graphGeneration(arrOfCoords,arrOfEdges)
-    print(arrOfCoords)
-    print(arrOfEdges)
-    start = int(input())-1
-    goal = int(input())-1
-    print(Astar(start,goal,arrOfCoords,adjMatrix))
-
-
-"""
-5
-10
-10
-20
-20
--10
-10
--20
-20
-0
--20
-5
-1
-2
-1
-3
-1
-5
-2
-4
-3
-4
-
-"""
-        
