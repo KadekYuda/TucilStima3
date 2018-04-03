@@ -19,57 +19,56 @@ function initMap() {
     strokeOpacity: 1.0,
     strokeWeight: 5,
   });
-  poly = new google.maps.Polyline({
-    strokeColor: '#000000',
-    strokeOpacity: 1.0,
-    strokeWeight: 3,
-	zindex: 2
-  });
 
   //Listener for a click in a map, there will be a marker
   google.maps.event.addListener(map, 'click', function(event) {
      placeMarker(event.latLng);
   });
+}
 
-  //Place new marker
-  function placeMarker(location) {
-      var marker = new google.maps.Marker({
-          position: location,
-          map: map,
-          id: labelIdx,
-          label: (labelIdx++).toString()
-      });
-      data.push(location);
+//Place new marker
+function placeMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        id: labelIdx,
+        label: (labelIdx++).toString()
+    });
+    data.push(location);
 
-      google.maps.event.addListener(marker, "click", function(){
-        var marker = this;
-        //alert('ID is: ' + this.id)
-        if (prevIdx == null){
-          prevIdx = this.id
-        } else {
-          addPolyLine(prevIdx, this.id);
-          prevIdx = this.id;
-        }
-      });
+    google.maps.event.addListener(marker, "click", function(){
+      var marker = this;
+      //alert('ID is: ' + this.id)
+      if (prevIdx == null){
+        prevIdx = this.id
+      } else {
+        addPolyLine(prevIdx, this.id);
+        prevIdx = this.id;
+      }
+    });
+}
+
+function contains(a, obj) {
+  for (var i = 0; i < a.length; i++) {
+      if (a[i].equals(obj)) {
+          return true;
+      }
   }
+  return false;
+}
 
-  function contains(a, obj) {
-    for (var i = 0; i < a.length; i++) {
-        if (a[i].equals(obj)) {
-            return true;
-        }
-    }
-    return false;
-  }
-
-  function addPolyLine(start, end){
-    if (start != end && !contains(edge,[start, end]) && !contains(edge,[end, start])){
-      poly.setMap(map);
-      var path = poly.getPath();
-      path.push(data[start]);
-      path.push(data[end]);
-      edge.push([start, end]);
-    }
+function addPolyLine(start, end){
+  if (start != end && !contains(edge,[start, end]) && !contains(edge,[end, start])){
+    var poly = new google.maps.Polyline({
+      strokeColor: '#000000',
+      strokeOpacity: 1.0,
+      strokeWeight: 3,
+    });
+    poly.setMap(map);
+    var path = poly.getPath();
+    path.push(data[start]);
+    path.push(data[end]);
+    edge.push([start, end]);
   }
 }
 
