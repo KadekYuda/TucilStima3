@@ -27,7 +27,7 @@ def get_post_javascript_data():
     sol = Astar(start,goal,arrOfCoords,adjMatrix)
     cost = sol[len(sol)-1]
     sol.remove(cost)
-    solution = {'solution': sol, 'cost': "Distance = " + str("{:.4f}".format(cost)) + " km"}
+    solution = {'solution': sol, 'cost': str("{:.4f}".format(cost)) + " km"}
     #print(solution)
     return json.dumps(solution)
 

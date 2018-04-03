@@ -19,6 +19,12 @@ function initMap() {
     strokeOpacity: 1.0,
     strokeWeight: 5,
   });
+  poly = new google.maps.Polyline({
+    strokeColor: '#000000',
+    strokeOpacity: 1.0,
+    strokeWeight: 3,
+	zindex: 2
+  });
 
   //Listener for a click in a map, there will be a marker
   google.maps.event.addListener(map, 'click', function(event) {
@@ -58,12 +64,6 @@ function initMap() {
 
   function addPolyLine(start, end){
     if (start != end && !contains(edge,[start, end]) && !contains(edge,[end, start])){
-      poly = new google.maps.Polyline({
-        strokeColor: '#000000',
-        strokeOpacity: 1.0,
-        strokeWeight: 3,
-        zindex: 2
-      });
       poly.setMap(map);
       var path = poly.getPath();
       path.push(data[start]);
@@ -95,8 +95,8 @@ function sendData(){
           // arr[0]    -> array result
           // arr[0][i] -> i adalah elemen ke-i dr hasil yg diinginkan
           addResultPolyLine(arr[0]);
-          document.getElementById("demo").innerHTML = json.solution + "\n" + json.cost;
-		  
+          document.getElementById("demo").innerHTML = json.solution;
+		  document.getElementById("dist").innerHTML = json.cost;
       }
   };
   var stuff = JSON.stringify(obj);
